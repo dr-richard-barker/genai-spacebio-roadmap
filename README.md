@@ -68,23 +68,52 @@ Outside the bioinformatics scope of this review: the games/sim cluster (LunarSim
 
 ## Gap analysis against the 15 challenges
 
-| # | Challenge | Closest existing work | Status |
-|---|---|---|---|
-| 1 | Regulatory/signaling logic | `arabidopsis-drem-osdr` wires a regulatory prior into the model itself | **Partial** — proof of concept for one module (SOG1/MYB3R); not generalized |
-| 2 | Epigenetic interactions | — | **Open gap** |
-| 3 | Cell-cell interactions | `CellChat_4_plants`, `ggPlantmap` exist as tools | **Partial** — tool present, not yet applied to a spaceflight dataset |
-| 4 | Synthetic mechanisms (expression construct design) | — | **Open gap** — reframed below for plant/bacterial/fungal engineering rather than the paper's iPSC framing |
-| 5 | Genome to function (variant scoring) | GWAS repos localize loci | **Partial** — locus-level, no functional variant-effect scoring |
-| 6 | Drug mechanism of action | `Astronaut_flavenoids_and_biomarkers` (LINCS L1000 reversal) | **Partial** — connectivity-mapping level, not regulon/protein-activity level |
-| 7 | Genome/consortium to phenotype | `LunarFarm-BLSS`, `osdr-plant-microbiome` | **Open gap**, but the pieces to combine already exist |
-| 8 | Cell state reprogramming (perturbation-response prediction) | Large perturbation-response omics corpus, but no predictive model over it | **Open gap** |
-| 9 | Logic biocircuit design | — | **Open gap** — reframed below for microbial/fungal biosensor & production circuits rather than the paper's chimeric-receptor framing |
-| 10 | Co-culture/microenvironment design | `LunarFarm-BLSS` measures a closed loop but doesn't optimize its composition | **Partial** |
-| 11 | Biomarker identification | `astronaut-oncogene-biomarkers`, `astronaut-mineral-deficiency-multiomics` | **Best-covered challenge** in the portfolio |
-| 12 | Drug/countermeasure toxicity | — | **Open gap** |
-| 13 | Drug efficacy (cell-state-specific) | — | Low relevance (no space-flown PDX/organoid data) |
-| 14 | Organismal response from baseline | `Astronaut_trends` looks at population trends, not individual baseline→response | **Open gap** |
-| 15 | Trial-outcome prediction | — | Not directly applicable to space biology |
+Priority score = Prior art (0–5: how much of the needed infrastructure/data already exists) + Interest (0–5: how central this is to your sustained, active focus — breadth of related repos, recency of pushes, and overlap with the games/manuscripts around the same theme, not just the strictly-on-topic repos). Both scored out of the actual portfolio, not the paper's framing. Challenge 11 is scored for completeness but bracketed — it's already substantially achieved, so it isn't a candidate for "next."
+
+| # | Challenge | Closest existing work | Status | Prior art | Interest | **Priority** |
+|---|---|---|---|---|---|---|
+| 6 | Drug mechanism of action | `Astronaut_flavenoids_and_biomarkers` (LINCS L1000 reversal) + the wider astronaut-countermeasure cluster | **Partial** — connectivity-mapping level, not regulon/protein-activity level | 5 | 5 | **10** |
+| 7 | Genome/consortium to phenotype | `LunarFarm-BLSS`, `osdr-plant-microbiome`, `Myco_tissue_RNAseq` GEMs | **Open gap**, but the pieces to combine already exist | 5 | 5 | **10** |
+| 1 | Regulatory/signaling logic | `arabidopsis-drem-osdr` wires a regulatory prior into the model itself | **Partial** — proof of concept for one module (SOG1/MYB3R); not generalized | 4 | 5 | **9** |
+| 8 | Cell state reprogramming (perturbation-response prediction) | Large perturbation-response omics corpus, but no predictive model over it | **Open gap** | 3 | 5 | **8** |
+| *(11)* | *Biomarker identification* | *`astronaut-oncogene-biomarkers`, `astronaut-mineral-deficiency-multiomics`* | *Best-covered — already largely achieved, not scored for "next"* | *5* | *5* | *(10)* |
+| 3 | Cell-cell interactions | `CellChat_4_plants`, `ggPlantmap` exist as tools | **Partial** — tool present, not yet applied to a spaceflight dataset | 3 | 4 | **7** |
+| 10 | Co-culture/microenvironment design | `LunarFarm-BLSS` measures a closed loop but doesn't optimize its composition | **Partial** | 3 | 4 | **7** |
+| 14 | Organismal response from baseline | `Astronaut_trends` looks at population trends, not individual baseline→response | **Open gap** | 3 | 4 | **7** |
+| 4 | Synthetic mechanisms (expression construct design) | — | **Open gap** — reframed below for plant/bacterial/fungal engineering rather than the paper's iPSC framing | 2 | 4 | **6** |
+| 5 | Genome to function (variant scoring) | GWAS repos localize loci | **Partial** — locus-level, no functional variant-effect scoring | 3 | 3 | **6** |
+| 9 | Logic biocircuit design | — | **Open gap** — reframed below for microbial/fungal biosensor & production circuits rather than the paper's chimeric-receptor framing | 1 | 3 | **4** |
+| 12 | Drug/countermeasure toxicity | — | **Open gap** | 1 | 3 | **4** |
+| 2 | Epigenetic interactions | — | **Open gap** | 1 | 2 | **3** |
+| 13 | Drug efficacy (cell-state-specific) | — | Low relevance (no space-flown PDX/organoid data) | 1 | 2 | **3** |
+| 15 | Trial-outcome prediction | — | Not directly applicable to space biology | 0 | 1 | **1** |
+
+### Where we're starting: Challenge 7
+
+Challenges 6 and 7 tie at the top. Breaking the tie:
+
+- **Status.** #6 is already *Partial* — it has a defined next step (Project F below) sitting on top of it. #7 is a genuine *Open gap*: nothing has been attempted yet, so there's more original headroom in a first pass.
+- **Recency.** `LunarFarm-BLSS` (pushed 2026-09-05) is the single most recently active repo in the entire portfolio.
+- **Synthesis.** #7 is the one challenge that's inherently cross-organism — it can't be done from AstroBotany, AstroMycology, or BLSS alone, only by combining them, which is exactly the three-way lens this doc already built out gap-by-gap above.
+- **Stakes.** Getting the minimal consortium wrong isn't an academic miss, it's a life-support failure mode — the highest human-health stakes of any open gap here.
+
+**Objective:** predict the minimal plant + fungal + microbial taxon set (and the interactions between them) that sustains closed-loop nutrient cycling in a bioregenerative life support system, then check the prediction against `LunarFarm-BLSS`'s own measured closed-loop findings.
+
+**What's already in hand:**
+- `LunarFarm-BLSS` — 4 measured closed-loop dynamics findings to validate against (ground truth).
+- `osdr-plant-microbiome` — FAIR relational + graph DB and guild-inference ML over NASA OSDR plant-microbiome datasets.
+- `Microbiome_of_seedlings_in_space` — metagenomics workflow/sequencing plan, a second taxon source.
+- `Myco_tissue_RNAseq` — genome-scale metabolic models (GEMs) already built for one fungal species; the method needs extending to more taxa, not inventing.
+- `fungal-bgc-atlas` — a filter for which candidate fungi can also produce something valuable while doing consortium duty.
+
+**Concrete first milestone:**
+1. Inventory every taxon (plant cultivar, fungal species, bacterial/archaeal genus) appearing across `LunarFarm-BLSS`, `osdr-plant-microbiome`, and `Microbiome_of_seedlings_in_space`, and note which already have — or could get — a genome-scale metabolic model.
+2. Reuse `Myco_tissue_RNAseq`'s GEM-building pipeline to extend coverage to the top candidate taxa.
+3. Run a computational co-culture/flux-balance screen (e.g. COBRApy) to find which minimal subset keeps carbon/nitrogen/key-mineral exchange balanced in silico.
+4. Check the model's predicted minimal consortium against what `LunarFarm-BLSS` already measured empirically — the prospective/retrospective discipline the Cell paper is pushing for.
+5. If it holds up, decide where it lives long-term (see open question below).
+
+**Open question before diving in:** should this live as a new module inside `LunarFarm-BLSS` (which already holds the ground-truth measurements to check against), or as its own repo that pulls from `osdr-plant-microbiome` + `Myco_tissue_RNAseq`? Leaning toward extending `LunarFarm-BLSS` unless you want the GEM pipeline decoupled for reuse elsewhere — let me know and I'll start pulling the taxon inventory.
 
 ## Recommended next projects
 
